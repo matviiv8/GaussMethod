@@ -1,0 +1,172 @@
+<div class="choice-cards-container">
+    <div class="choice">
+      <label class="choice-manual" [class.selected]="selectedOption === 'manualInput'" (click)="onOptionChange('manualInput')">
+        <input type="radio" name="inputOptions" value="manualInput" [checked]="selectedOption === 'manualInput'">
+        Manual entry
+      </label>
+      <label class="choice-file" [class.selected]="selectedOption === 'fileInput'" (click)="onOptionChange('fileInput')">
+        <input type="radio" name="inputOptions" value="fileInput" [checked]="selectedOption === 'fileInput'">
+        From the file
+      </label>
+      <label class="choice-generation" [class.selected]="selectedOption === 'generateSystem'" (click)="onOptionChange('generateSystem')">
+        <input type="radio" name="inputOptions" value="generateSystem" [checked]="selectedOption === 'generateSystem'">
+        Generate system
+      </label>
+    </div>
+    
+    <div class="inputs" [style.height]="cardSize">
+        <div class="cards-container" *ngIf="selectedOption === 'manualInput'" >
+                <div class="manual-input">
+                    <label class="text">Select the number of decimal places:
+                        <input type="range" class="precision" min="0" max="8" [(ngModel)]="precision" />
+                        <output id="precision-value"> {{ precision }}</output>
+                    </label>
+                    <label class="text">The number of unknown values in the system:     
+                        <select class="select-list" [(ngModel)]="selectedSize" (change)="updateMatrixAndVector()">
+                        <option value="2">2</option>
+                        <option value="3" selected>3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        </select>
+                    </label>
+                    <label class="text">Fill in the matrix A and the vector b:</label>
+                    <div class="matrix-vector-container">
+                        <label class="text">A =</label>
+                        <table>
+                        <tr *ngFor="let row of matrix; let i = index">
+                            <td *ngFor="let col of matrix; let j = index">
+                            <input type="text" class="element-matrix" placeholder="0" [(ngModel)]="matrix[i][j]" />
+                            </td>
+                        </tr>
+                        </table>
+                        <label class="text">b =</label>
+                        <table>
+                        <tr *ngFor="let row of vector; let i = index">
+                            <td>
+                            <input type="text" class="element-vector" placeholder="0" [(ngModel)]="vector[i]" />
+                            </td>
+                        </tr>
+                        </table>
+                    </div>         
+                    <div class="calculate-button">
+                        <input type="button" id="calculate-button" (click)="calculate()" hidden/>
+                        <label class="calculate-label" for="calculate-button">Calculate</label>
+                    </div>
+                    <div class="error-container" *ngIf="errorText">
+                        <label class="error-text">Error: {{ errorText }}</label>
+                    </div>
+                    </div>    
+                    <div class="instruction">
+                    <label class="instruction-text">Entering data into a calculator for solving systems of linear equations using the Gaussian method:</label>
+                    <ul>
+                        <li class="text">You can enter decimal fractions through "." .</li>
+                        <li class="text">To change the signs in the equation from "+" to "-", enter negative numbers.</li>
+                        <li class="text">If there is no variable in the equation, enter zero in the corresponding input field of the calculator.</li>
+                    </ul>
+                    </div>
+        </div>
+
+        <div class="cards-container" *ngIf="selectedOption === 'fileInput'">
+            <div class="file-input">
+                <label class="text" style="margin-bottom: 20px;">Select the number of decimal places:
+                    <input type="range" class="precision" min="0" max="8" [(ngModel)]="precision" />
+                    <output id="precision-value"> {{ precision }}</output>
+                </label>
+                <div class="file-button">
+                    <input type="file" id="choose-file" hidden [(ngModel)]="selectedFile" #chooseFile (change)="onFileSelected($event)"/>
+                    <label class="file-label" for="choose-file">Choose File</label>
+                </div>
+                <div class="file-name-container">
+                    <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                    <span class="file-name" *ngIf="!selectedFile">(No file selected)</span>
+                </div>
+                <div class="calculate-button">
+                    <input type="button" id="calculate-button" (click)="calculate()" hidden/>
+                    <label class="calculate-label" for="calculate-button">Calculate</label>
+                </div>    
+                <div class="error-container" *ngIf="errorText">
+                    <label class="error-text">Error: {{ errorText }}</label>
+                </div>
+            </div>
+            <div class="instruction">
+                <label class="instruction-text">Inserting a file with data into a calculator for solving systems of linear equations using the Gaussian method:</label>
+                <ul>
+                    <li class="text">The file must be of the format ".txt" .</li>
+                    <li class="text">An example file can be downloaded <a class="file-download" href="https://drive.google.com/file/d/1NG0R5aC7RGkE_IM0O2tQsjKFZ0txycBY/view?usp=drive_link" target="_blank">here.</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cards-container" *ngIf="selectedOption === 'generateSystem'">
+            <div class="generation">
+                <label class="text" style="margin-bottom: 20px;">Select the number of decimal places:
+                    <input type="range" class="precision" min="0" max="8" [(ngModel)]="precision" />
+                    <output id="precision-value"> {{ precision }}</output>
+                </label>
+                <label class="text">Enter the number n:
+                    <input type="text" class="element-input" placeholder="7" [(ngModel)]="n">
+                </label>
+                <div class="calculate-button">
+                    <input type="button" id="calculate-button" (click)="calculate()" hidden/>
+                    <label class="calculate-label" for="calculate-button">Calculate</label>
+                </div>   
+                <div class="error-container" *ngIf="errorText">
+                    <label class="error-text">Error: {{ errorText }}</label>
+                </div>
+            </div>
+            <div class="instruction">
+                <label class="instruction-text">Generating a system of 10 equations, reducing to a stair-step form and solving by the Gaussian method:</label>
+                <ul>
+                    <li class="text">The system is generated according to the following principle: <p>Σ<sub>j=1</sub><sup>10</sup> ( √(i+j+n) + 10 + n/i + e<sup>-(n+ij/100)</sup> ) * x<sub>j</sub> = i, i=1,2,...,10</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="result" *ngIf="result">
+    <h2 class="text">Answer</h2>
+    <label *ngIf="selectedOption != 'manualInput'" class="text">Input data:</label>
+    <div *ngIf="selectedOption != 'manualInput'" class="matrix-vector-container" >
+        <label class="text">A =</label>
+        <table>
+        <tr *ngFor="let row of result.a; let i = index">
+            <td *ngFor="let col of result.a; let j = index">
+            <input type="text" class="result-matrix" placeholder="0" [(ngModel)]="result.a[i][j]" />
+            </td>
+        </tr>
+        </table>
+        <label class="text">b =</label>
+        <table>
+        <tr *ngFor="let row of result.b; let i = index">
+            <td>
+            <input type="text" class="result-vector" placeholder="0" [(ngModel)]="result.b[i]" />
+            </td>
+        </tr>
+        </table>
+    </div>
+    <label class="text">Triangular Matrix:</label>
+    <div class="matrix-vector-container">
+        <table>
+            <ng-container *ngFor="let row of result.triangularMatrix; let i = index">
+              <tr>
+                <td *ngFor="let col of row; let j = index">
+                  <input type="text" class="result-matrix" [value]="result.triangularMatrix[i][j]" readonly/>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+    </div>
+    <label class="text">x :</label>
+    <div class="matrix-vector-container">
+        <table>
+          <tr *ngFor="let value of result.x; let i = index">
+            <td>
+              <input type="text" class="result-vector" [value]="result.x[i]" readonly/>
+            </td>
+          </tr>
+        </table>
+      </div>
+    <div style="margin-bottom: 20px;"><label class="text">Computation Time: {{ result.computationTime | json }}</label></div>
+</div> 
