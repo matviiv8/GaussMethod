@@ -14,14 +14,14 @@ GaussMethod is a web application for solving systems of linear equations using t
 
 ## Technology Stack
 
-The "Gauss Method Solver" project employs the following technologies:
+The "GaussMethod" project employs the following technologies:
 
 - **Back-End**: [ASP.NET Core Web API](https://dotnet.microsoft.com/apps/aspnet)
 - **Front-End**: [Angular](https://angular.io/)
 
 ## Functionality
 
-The "Gauss Method Solver" project offers the following functionality:
+GaussMethod offers the following functionality:
 
 - The ability to solve systems of linear equations using the Gauss elimination method in two ways:
   -  Manually by entering the coefficient matrix and the right-hand side vector.
