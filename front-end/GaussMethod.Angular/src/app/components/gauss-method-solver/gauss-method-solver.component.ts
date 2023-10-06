@@ -15,7 +15,7 @@ export class GaussMethodSolverComponent{
   selectedSize = 3;
   matrix: number[][] = Array.from({ length: this.selectedSize }, () => Array(this.selectedSize).fill(0));
   vector: number[] = Array(this.selectedSize).fill(0);
-  cardSize = '390px';
+  cardSize = '400px';
   result: GaussMethodResult | null = null;
   errorText = '';
   selectedFile: File | null = null;
@@ -46,7 +46,7 @@ export class GaussMethodSolverComponent{
   }
   
   resetMatrixAndVector() {
-    this.cardSize = '390px';
+    this.cardSize = '400px';
     this.selectedSize = 3;
     this.updateMatrixAndVector();
   }

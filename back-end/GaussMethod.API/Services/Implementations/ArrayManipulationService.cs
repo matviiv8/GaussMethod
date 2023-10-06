@@ -5,7 +5,6 @@ namespace GaussMethod.API.Services.Implementations
 {
     public class ArrayManipulationService : IArrayManipulationService
     {
-
         public void CopyArraysToModel(double[][] sourceA, double[] sourceB, GaussMethodResult model)
         {
             var n = sourceA.Length;
@@ -19,7 +18,6 @@ namespace GaussMethod.API.Services.Implementations
             model.b = new double[sourceB.Length];
             Array.Copy(sourceB, model.b, sourceB.Length);
         }
-
 
         public double[][] ExtractTriangularMatrix(double[][] A, double[] b, int precision)
         {

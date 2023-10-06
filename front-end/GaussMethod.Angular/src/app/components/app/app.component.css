@@ -86,3 +86,22 @@
     font-weight: 900;
     line-height: normal;
   }
+
+  .technology-icon {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  @keyframes fadeOutAndIn {
+      0%, 100% {
+          opacity: 1;
+      }
+      50% {
+        transform: scale(0.5);
+          opacity: 0;
+      }
+  }
+
+  .technology-icon:hover {
+      animation: fadeOutAndIn 1s ease-in-out;
+      transform: scale(1); 
+  }
