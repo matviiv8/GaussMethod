@@ -1,0 +1,10 @@
+version: '3'
+services:
+  angular-app:
+    image: angular-image
+    ports:
+      - "4300:80"
+  api-app:
+    image: api-image
+    ports:
+      - "5153:80"

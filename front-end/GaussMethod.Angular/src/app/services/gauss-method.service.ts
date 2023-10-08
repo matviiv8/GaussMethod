@@ -7,7 +7,7 @@ import { GaussMethodInput } from '../models/gaussMethodInput';
   providedIn: 'root'
 })
 export class GaussMethodService {
-  private apiUrl = 'https://localhost:5000/api/gaussmethod';
+  private apiUrl = 'http://localhost:5153/api/gaussmethod';
 
   constructor(private http: HttpClient) { }
 
